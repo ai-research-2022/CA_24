@@ -1,59 +1,47 @@
-# Importing necessary libraries
-import streamlit as st  
-import pandas as pd  
-import matplotlib.pyplot as plt  
+import streamlit as st
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
-# Set the title of the Streamlit web application
+# 1. Initialize the Streamlit app
 st.title('My First Streamlit App')
-# Write some introductory text in the app
-st.write('This is a simple Streamlit app.')
 
-# Input Widgets
-# Create a text input box and store the user input in a variable
-user_input = st.text_input("Enter your name")
-# Display the name entered by the user
-st.write('Your name is', user_input)
+# Add introductory text explaining the purpose of the app
+st.write('This is a simple Streamlit app to demonstrate basic functionalities including user input, data display, and interactive controls.')
 
-# Create a slider for selecting an age within a specified range
-age = st.slider("Choose your age", 1, 100)
-# Display the selected age
-st.write("You are ", age, " years old")
+# 2. User Input Controls
+name = st.text_input("Enter your name", "")
+if name:
+    st.write(f"Hello {name}!")
 
-# Create a button and check if it is clicked
+age = st.slider("Select your age", 1, 100)
+st.write("You've selected:", age)
+
+# 3. Button Interaction
 if st.button('Say hello'):
-    # If the button is clicked, display this message
     st.write('Hello there!')
 
-# Displaying Data
-# Create a DataFrame using pandas
+# 4. Data Manipulation and Display
 data = pd.DataFrame({
-    'first column': [1, 2, 3, 4],  # Data for the first column
-    'second column': [10, 20, 30, 40]  # Data for the second column
+    "Numbers": range(100),
+    "Squares": [i**2 for i in range(100)]
 })
-# Use Streamlit to display the DataFrame in a table format
-st.dataframe(data)
+st.dataframe(data)  # Display the DataFrame
 
-# Plotting Data
-# Create a figure and an axes object for plotting
+# 5. Data Visualization
 fig, ax = plt.subplots()
-# Plot a histogram of the 'second column' with 5 bins
-ax.hist(data['second column'], bins=5)
-# Use Streamlit to display the matplotlib figure
+ax.hist(data['Squares'], bins=10, color='blue')
+ax.set_title('Histogram of Squares')
+ax.set_xlabel('Squares')
+ax.set_ylabel('Frequency')
 st.pyplot(fig)
 
-# Layouts and Containers
-# Create two columns for layout
+# 6. Advanced Layouts
 col1, col2 = st.columns(2)
-# Content for the first column
 with col1:
-    st.header("Column 1")  # Set a header for the column
-    st.write("Hello")  # Display some text
-# Content for the second column
+    st.header("Hello")
 with col2:
-    st.header("Column 2")  # Set a header for the column
-    st.write("World")  # Display some text
+    st.header("World")
 
-# Create an expander to hide/show detailed explanation
-with st.expander("See explanation"):
-    # This text can be shown or hidden in the expander
-    st.write("Here you could put in some really, really explanatory stuff.")
+expander = st.expander("More Information")
+expander.write("This is an expander widget to show or hide additional information. Toggle it to see more or less information.")
